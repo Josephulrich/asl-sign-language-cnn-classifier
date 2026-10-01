@@ -162,4 +162,103 @@ During training, the script:
 
 - Loads training images from `data/asl_alphabet_train/`.
 - Resizes images to `64 × 64`.
-- Rescales RGB pixels to the `[0, 1]`
+- Rescales RGB pixels to the `[0, 1]` range.
+- Uses 20% of the training images as validation data.
+- Applies data augmentation to the training and validation generators.
+- Trains the CNN with the Adam optimizer and categorical cross-entropy loss.
+- Stops early if validation loss does not improve for 10 epochs.
+- Saves the trained model to:
+
+```text
+models/asl_sign_model.keras
+```
+
+- Saves the training curves to:
+
+```text
+results/plots/training_curves.png
+```
+
+If a test folder exists, the script also evaluates the trained model and prints the test accuracy and loss.
+
+---
+
+## Model architecture
+
+The model implemented in `src/train.py` follows this structure:
+
+```text
+Input: 64 × 64 × 3 RGB image
+    ↓
+Conv2D: 32 filters, 3 × 3, ReLU
+    ↓
+MaxPooling2D: 2 × 2
+    ↓
+Conv2D: 64 filters, 3 × 3, ReLU
+    ↓
+MaxPooling2D: 2 × 2
+    ↓
+Conv2D: 128 filters, 3 × 3, ReLU
+    ↓
+MaxPooling2D: 2 × 2
+    ↓
+Flatten
+    ↓
+Dense: 128 units, ReLU
+    ↓
+Batch Normalization
+    ↓
+Dropout: 0.30
+    ↓
+Softmax output: number of classes detected from the dataset
+```
+
+The output layer automatically adapts to the number of class folders found in the training dataset.
+
+---
+
+## Important limitations
+
+- This repository focuses on **static signs** represented by individual images.
+- It does not perform continuous sign-language translation.
+- ASL has its own grammar and includes facial expressions, body posture, movement and context; an alphabet image classifier does not capture those linguistic features.
+- Some letters, such as `J` and `Z`, use motion and are not fully represented by a single static image.
+- Real-world accuracy depends on lighting, background, camera quality, hand orientation, skin-tone diversity, dataset balance and whether unseen users are represented in the training data.
+- Dataset licenses and attribution requirements must be respected.
+
+---
+
+## Possible improvements
+
+- Add the webcam inference script used for the demonstration.
+- Export class labels with the trained model.
+- Add a prediction confidence threshold and an `unknown` class.
+- Add image preprocessing for hand detection and background removal.
+- Collect a more diverse dataset with multiple signers, lighting conditions and backgrounds.
+- Use transfer learning with MobileNetV2, EfficientNet or another lightweight vision backbone.
+- Use landmarks from MediaPipe Hands.
+- Use video sequences and recurrent or transformer-based models for dynamic signs.
+- Build a real-time desktop or web interface.
+
+---
+
+## Technologies
+
+- Python
+- TensorFlow / Keras
+- NumPy
+- Matplotlib
+- Pandas
+- Convolutional Neural Networks
+- Computer Vision
+- American Sign Language alphabet image datasets
+
+---
+
+## Author
+
+**Joseph Mbode**  
+Embedded systems, electronics, mechatronics and applied computer-vision projects.
+
+- GitHub: [@Josephulrich](https://github.com/Josephulrich)
+- LinkedIn: [Joseph Mbode](https://www.linkedin.com/in/joseph-mbode)
