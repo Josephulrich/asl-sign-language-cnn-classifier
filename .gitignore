@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Trained models and checkpoints
+models/*.keras
+models/*.h5
+models/*.hdf5
+checkpoints/
+
+# Full datasets: download them separately
+data/asl_alphabet_train/
+data/asl_alphabet_test/
+data/asl-alphabet/
+data/raw/
+
+# Large experiment outputs
+results/plots/*.png
+results/metrics/*.csv
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
